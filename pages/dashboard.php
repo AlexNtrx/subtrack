@@ -16,3 +16,7 @@
 
 <!-- 5. Modal Component -->
 <?php include __DIR__ . '/../components/modal.php'; ?>
+
+<!-- 6. Toast Notifications Container -->
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+

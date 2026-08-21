@@ -1,6 +1,6 @@
-/* ==========================================================================
-   2. HEADER & LOGO -KOMPONENTTI (Header Styles)
-   ========================================================================== */
+/* 
+ HEADER
+  */
 header {
     padding: 28px 0;
     display: flex;
@@ -61,3 +61,5 @@ header {
     transform: translateY(-2px);
     box-shadow: 0 12px 20px rgba(16, 185, 129, 0.35);
 }
+
+

@@ -11,16 +11,22 @@
     <!-- FontAwesome Ikonit -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- CSS Stylesheet -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- CSS Stylesheets (Parallel loading via <link> - No Request Waterfall) -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/stats.css">
+    <link rel="stylesheet" href="css/controls.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/modal.css">
 </head>
 <body>
 
     <!-- Main Page Content -->
     <?php include __DIR__ . '/pages/dashboard.php'; ?>
 
-    <!-- Scripts (Functions & Event Handlers) -->
-    <script src="functions/tracker_utils.js"></script>
-    <script src="handlers/sub_handlers.js"></script>
+    <!-- Scripts (API -> UI -> App) -->
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
