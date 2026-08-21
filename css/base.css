@@ -1,0 +1,91 @@
+/* ==========================================================================
+   1. PERUSTYYLIT JA TEEMAMUUTTUJAT (Base & Theme Variables)
+   ========================================================================== */
+:root {
+    --bg-cream: #fdfbf7;
+    --bg-card: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    
+    --mint-primary: #10b981;
+    --mint-light: #e6f4ea;
+    --mint-dark: #047857;
+    
+    --coral-accent: #fb7185;
+    --coral-light: #ffe4e6;
+    
+    --border-subtle: #f1f5f9;
+    --shadow-soft: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    --shadow-hover: 0 20px 30px -10px rgba(16, 185, 129, 0.12);
+    
+    /* Pastellisävyt kategorioille */
+    --cat-purple: #f3e8ff;
+    --cat-purple-text: #7e22ce;
+    --cat-blue: #e0f2fe;
+    --cat-blue-text: #0284c7;
+    --cat-orange: #ffedd5;
+    --cat-orange-text: #c2410c;
+    --cat-green: #dcfce7;
+    --cat-green-text: #15803d;
+    
+    --radius-card: 20px;
+    --radius-btn: 14px;
+}
+
+/* Base Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-cream);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 60px;
+    position: relative;
+}
+
+/* Taustan pehmeät korostegradientit */
+body::before {
+    content: '';
+    position: fixed;
+    top: -120px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(52, 211, 153, 0.12) 0%, rgba(253, 251, 247, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -150px;
+    left: -120px;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(251, 113, 133, 0.1) 0%, rgba(253, 251, 247, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Typografia */
+h1, h2, h3, h4 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    color: var(--text-main);
+}

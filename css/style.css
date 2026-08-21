@@ -1,0 +1,13 @@
+/* ==========================================================================
+   SUBTRACKER - PÄÄTYYLITIEDOSTO (Main Stylesheet with Modular Imports)
+   ========================================================================== */
+
+/* 1. Perusteema, muuttujat ja asettelu */
+@import 'base.css';
+
+/* 2. Komponenttikohtaiset tyylit */
+@import 'header.css';
+@import 'stats.css';
+@import 'controls.css';
+@import 'cards.css';
+@import 'modal.css';

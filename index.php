@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubTracker - Tilausten Hallinta</title>
+    <!-- Google Fonts: Nunito (Otsikot) & Plus Jakarta Sans (Runkoteksti) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Ikonit -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Main Page Content -->
+    <?php include __DIR__ . '/pages/dashboard.php'; ?>
+
+    <!-- Scripts (Functions & Event Handlers) -->
+    <script src="functions/tracker_utils.js"></script>
+    <script src="handlers/sub_handlers.js"></script>
+</body>
+</html>

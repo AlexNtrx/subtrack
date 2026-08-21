@@ -1,0 +1,163 @@
+/* ==========================================================================
+   5. TILAUSKORTIT JA RUUDUKKO (Subscription Cards & Grid Styles)
+   ========================================================================== */
+.subscriptions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.sub-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-subtle);
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.25s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sub-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.sub-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.service-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.service-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.service-details h3 {
+    font-size: 18px;
+    margin-bottom: 2px;
+}
+
+.badge-cat {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-pill.active { background: var(--mint-light); color: var(--mint-dark); }
+.status-pill.paused { background: #f1f5f9; color: #64748b; }
+
+.sub-body {
+    border-top: 1px dashed var(--border-subtle);
+    border-bottom: 1px dashed var(--border-subtle);
+    padding: 16px 0;
+    margin-bottom: 16px;
+}
+
+.price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.price-amount {
+    font-size: 26px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    color: var(--text-main);
+}
+
+.price-cycle {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.meta-item i {
+    color: var(--mint-primary);
+}
+
+.sub-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.payment-method {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    background: #f8fafc;
+    border: 1px solid var(--border-subtle);
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background: var(--mint-light);
+    color: var(--mint-primary);
+    border-color: var(--mint-primary);
+}
+
+.action-btn.delete:hover {
+    background: var(--coral-light);
+    color: var(--coral-accent);
+    border-color: var(--coral-accent);
+}
