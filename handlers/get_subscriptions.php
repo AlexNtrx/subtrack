@@ -1,6 +1,4 @@
 <?php
-
-
 //  Kerrotaan selaimelle, että vastaus on JSON-muodossa
 header('Content-Type: application/json; charset=utf-8');
 
