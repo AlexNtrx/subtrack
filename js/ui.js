@@ -1,5 +1,5 @@
 
-
+// tyyli
 const SubTrackerUI = {
     getCategoryStyle(cat) {
         switch (cat) {
@@ -14,6 +14,7 @@ const SubTrackerUI = {
         }
     },
 
+    // päivitetään
 
     updateSummaryStats(subscriptions = []) {
         const activeSubs = subscriptions.filter(s => s.tila === 'Aktiivinen');
@@ -56,7 +57,7 @@ const SubTrackerUI = {
         }
     },
 
- 
+    // kortit
     renderCard(sub) {
         const catStyle = this.getCategoryStyle(sub.kategoria);
         const isActive = sub.tila === 'Aktiivinen';
