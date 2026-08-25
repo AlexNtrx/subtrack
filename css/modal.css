@@ -145,3 +145,140 @@
     pointer-events: none;
 }
 
+
+
+/*  Mobile Styles (max-width: 639px) */
+@media (max-width: 639px) {
+    .modal-overlay {
+        padding: 16px;
+        align-items: center;
+    }
+
+    .modal-card {
+        padding: 22px 18px;
+        border-radius: 20px;
+        max-height: calc(100vh - 32px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-header {
+        margin-bottom: 18px;
+    }
+
+    .modal-header h2 {
+        font-size: 19px;
+    }
+
+    .close-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .form-label {
+        font-size: 12.5px;
+        margin-bottom: 5px;
+    }
+
+    .form-input,
+    .form-select {
+        padding: 11px 14px;
+        font-size: 13.5px;
+        border-radius: 10px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .modal-actions {
+        margin-top: 22px;
+        gap: 10px;
+    }
+
+    .btn-secondary,
+    .btn-submit {
+        padding: 11px 14px;
+        font-size: 14px;
+    }
+}
+
+/* Micro-adjustments for very small screens (max-width: 400px) */
+@media (max-width: 400px) {
+    .modal-overlay {
+        padding: 10px;
+    }
+
+    .modal-card {
+        padding: 18px 14px;
+        border-radius: 16px;
+    }
+
+    .modal-header h2 {
+        font-size: 17px;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+        gap: 8px;
+    }
+
+    .btn-secondary,
+    .btn-submit {
+        width: 100%;
+        flex: none;
+        padding: 12px;
+    }
+}
+
+/*  Tablet Styles (min-width: 640px) and (max-width: 1023px) */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .modal-card {
+        max-width: 480px;
+        padding: 28px;
+    }
+}
+
+/*  Extra Large Desktop (min-width: 1440px) */
+@media (min-width: 1440px) {
+    .modal-card {
+        max-width: 560px;
+        padding: 36px;
+        border-radius: 28px;
+    }
+
+    .modal-header h2 {
+        font-size: 24px;
+    }
+
+    .form-label {
+        font-size: 14px;
+        margin-bottom: 7px;
+    }
+
+    .form-input,
+    .form-select {
+        padding: 14px 18px;
+        font-size: 15px;
+        border-radius: 14px;
+    }
+
+    .modal-actions {
+        margin-top: 32px;
+        gap: 14px;
+    }
+
+    .btn-secondary,
+    .btn-submit {
+        padding: 14px 20px;
+        font-size: 16px;
+        border-radius: 16px;
+    }
+}
+

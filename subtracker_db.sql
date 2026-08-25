@@ -32,9 +32,9 @@ CREATE TABLE `subscriptions` (
   `palvelun_nimi` varchar(100) NOT NULL COMMENT 'Palvelun nimi / Service Name (e.g. Netflix, Spotify)',
   `hinta` decimal(10,2) NOT NULL DEFAULT 0.00 COMMENT 'Hinta euroina / Price in EUR',
   `laskutusjakso` enum('Kuukausittain','Vuosittain') NOT NULL DEFAULT 'Kuukausittain' COMMENT 'Laskutusjakso / Billing Cycle (Monthly/Yearly)',
-  `seuraava_era` date NOT NULL COMMENT 'Seuraava er├ñp├ñiv├ñ / Next Due Date (YYYY-MM-DD)',
+  `seuraava_era` date NOT NULL COMMENT 'Seuraava eräpäivä / Next Due Date (YYYY-MM-DD)',
   `maksutapa` varchar(50) DEFAULT 'Maksukortti' COMMENT 'Maksutapa / Payment Method (e.g. Visa, Apple Pay)',
-  `kategoria` enum('Suoratoisto','Ty├Âkalut','Vapaa-aika','Muut') NOT NULL DEFAULT 'Muut' COMMENT 'Kategoria / Category',
+  `kategoria` varchar(50) NOT NULL DEFAULT 'Muut' COMMENT 'Kategoria / Category',
   `tila` enum('Aktiivinen','Tauolla') NOT NULL DEFAULT 'Aktiivinen' COMMENT 'Tila / Status (Active/Paused)',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()

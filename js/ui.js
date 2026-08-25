@@ -6,9 +6,12 @@ const SubTrackerUI = {
             case 'Suoratoisto':
                 return { bg: 'var(--cat-purple)', color: 'var(--cat-purple-text)', iconBg: '#ffe4e6', iconColor: '#e11d48', icon: 'fa-film' };
             case 'Työkalut':
+            case 'Työkalut & Pilvipalvelut':
+            case 'Pilvipalvelut':
                 return { bg: 'var(--cat-blue)', color: 'var(--cat-blue-text)', iconBg: '#e0f2fe', iconColor: '#0284c7', icon: 'fa-cloud' };
             case 'Vapaa-aika':
                 return { bg: 'var(--cat-orange)', color: 'var(--cat-orange-text)', iconBg: '#ffedd5', iconColor: '#ea580c', icon: 'fa-dumbbell' };
+            case 'Muut':
             default:
                 return { bg: '#f1f5f9', color: '#475569', iconBg: '#e2e8f0', iconColor: '#475569', icon: 'fa-layer-group' };
         }
@@ -59,7 +62,8 @@ const SubTrackerUI = {
 
     // kortit
     renderCard(sub) {
-        const catStyle = this.getCategoryStyle(sub.kategoria);
+        const cat = (sub.kategoria && sub.kategoria.trim()) ? sub.kategoria.trim() : 'Muut';
+        const catStyle = this.getCategoryStyle(cat);
         const isActive = sub.tila === 'Aktiivinen';
 
         const card = document.createElement('div');
@@ -73,7 +77,7 @@ const SubTrackerUI = {
                         </div>
                         <div class="service-details">
                             <h3>${escapeHtml(sub.palvelun_nimi)}</h3>
-                            <span class="badge-cat" style="background: ${catStyle.bg}; color: ${catStyle.color};">${escapeHtml(sub.kategoria)}</span>
+                            <span class="badge-cat" style="background: ${catStyle.bg}; color: ${catStyle.color};">${escapeHtml(cat)}</span>
                         </div>
                     </div>
                     <span class="status-pill ${isActive ? 'active' : 'paused'}">${escapeHtml(sub.tila)}</span>
@@ -120,7 +124,10 @@ const SubTrackerUI = {
 
         const query = (searchQuery || '').trim().toLowerCase();
         let filtered = subscriptions.filter(sub => {
-            const matchesCat = (activeCategory === 'Kaikki') || (sub.kategoria === activeCategory);
+            const subCat = (sub.kategoria && sub.kategoria.trim()) ? sub.kategoria.trim() : 'Muut';
+            const matchesCat = (activeCategory === 'Kaikki') || 
+                               (subCat === activeCategory) ||
+                               (activeCategory === 'Työkalut' && (subCat === 'Työkalut & Pilvipalvelut' || subCat === 'Pilvipalvelut'));
             const matchesSearch = !query || (sub.palvelun_nimi && sub.palvelun_nimi.toLowerCase().includes(query));
             return matchesCat && matchesSearch;
         });
@@ -143,9 +150,9 @@ const SubTrackerUI = {
 
         if (filtered.length === 0) {
             container.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: var(--radius-card); border: 1px dashed var(--border-subtle);">
-                    <i class="fa-regular fa-folder-open" style="font-size: 32px; color: var(--text-muted); margin-bottom: 12px;"></i>
-                    <p style="color: var(--text-muted); font-weight: 600;">Ei tilauksia saatavilla. Lisää ensimmäinen tilauksesi!</p>
+                <div class="empty-state">
+                    <i class="fa-regular fa-folder-open empty-icon"></i>
+                    <p class="empty-text">Ei tilauksia saatavilla. Lisää ensimmäinen tilauksesi!</p>
                 </div>
             `;
         } else {
@@ -219,7 +226,18 @@ const SubTrackerUI = {
         if (document.getElementById('formCycle')) document.getElementById('formCycle').value = sub.laskutusjakso || 'Kuukausittain';
         if (document.getElementById('formDate')) document.getElementById('formDate').value = sub.seuraava_era || '';
         if (document.getElementById('formPayment')) document.getElementById('formPayment').value = sub.maksutapa || '';
-        if (document.getElementById('formCategory')) document.getElementById('formCategory').value = sub.kategoria || 'Suoratoisto';
+        if (document.getElementById('formCategory')) {
+            const catSelect = document.getElementById('formCategory');
+            const targetCat = (sub.kategoria && sub.kategoria.trim()) ? sub.kategoria.trim() : 'Muut';
+            catSelect.value = targetCat;
+            if (!catSelect.value) {
+                if (targetCat === 'Pilvipalvelut' || targetCat === 'Työkalut & Pilvipalvelut') {
+                    catSelect.value = 'Työkalut';
+                } else {
+                    catSelect.value = 'Muut';
+                }
+            }
+        }
         if (document.getElementById('formStatus')) document.getElementById('formStatus').value = sub.tila || 'Aktiivinen';
 
         if (modal) modal.classList.add('active');

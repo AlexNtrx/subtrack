@@ -115,3 +115,123 @@
     border-color: var(--mint-primary);
 }
 
+
+
+/*  Mobile Styles (max-width: 639px) */
+@media (max-width: 639px) {
+    .controls-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .filter-tabs {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 4px;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab-btn {
+        flex: 1;
+        text-align: center;
+        white-space: nowrap;
+        padding: 9px 12px;
+        font-size: 13.5px;
+    }
+
+    .controls-right {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .sort-box,
+    .search-box {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .sort-select {
+        width: 100%;
+        padding: 11px 16px 11px 38px;
+        font-size: 14px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 11px 16px 11px 40px;
+        font-size: 14px;
+    }
+}
+
+/*  very small screens (max-width: 380px) */
+@media (max-width: 380px) {
+    .tab-btn {
+        padding: 8px 8px;
+        font-size: 12.5px;
+    }
+}
+
+/* 2. Tablet Styles (min-width: 640px) and (max-width: 1023px) */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .controls-bar {
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+
+    .controls-right {
+        flex: 1;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .sort-box {
+        flex-shrink: 0;
+    }
+
+    .search-box {
+        flex: 1;
+        max-width: 260px;
+        min-width: 170px;
+    }
+}
+
+/* 3. Extra Large Desktop (min-width: 1440px) */
+@media (min-width: 1440px) {
+    .controls-bar {
+        margin-bottom: 30px;
+        gap: 20px;
+    }
+
+    .tab-btn {
+        padding: 10px 22px;
+        font-size: 15px;
+        border-radius: 14px;
+    }
+
+    .sort-select {
+        padding: 12px 20px 12px 42px;
+        font-size: 15px;
+        border-radius: 14px;
+        background-position: right 14px center;
+    }
+
+    .search-box {
+        min-width: 320px;
+    }
+
+    .search-input {
+        padding: 12px 20px 12px 44px;
+        font-size: 15px;
+        border-radius: 14px;
+    }
+}
+

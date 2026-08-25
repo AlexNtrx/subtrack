@@ -5,6 +5,7 @@
         <button class="tab-btn" data-cat="Suoratoisto">Suoratoisto</button>
         <button class="tab-btn" data-cat="Työkalut">Työkalut</button>
         <button class="tab-btn" data-cat="Vapaa-aika">Vapaa-aika</button>
+        <button class="tab-btn" data-cat="Muut">Muut</button>
     </div>
     <div class="controls-right">
         <div class="sort-box">

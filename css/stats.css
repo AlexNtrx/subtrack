@@ -54,3 +54,127 @@
     color: var(--text-muted);
     margin-top: 4px;
 }
+
+
+/*  Mobile Styles (max-width: 639px) */
+@media (max-width: 639px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+
+    .stat-card {
+        padding: 16px 18px;
+        gap: 14px;
+        border-radius: 16px;
+    }
+
+    .stat-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 13px;
+        font-size: 19px;
+    }
+
+    .stat-info .label {
+        font-size: 12.5px;
+        margin-bottom: 2px;
+    }
+
+    .stat-info .value {
+        font-size: 22px;
+    }
+
+    .stat-info .subtext {
+        font-size: 12px;
+        margin-top: 2px;
+    }
+}
+
+/* very small screens (max-width: 380px) */
+@media (max-width: 380px) {
+    .stat-card {
+        padding: 14px;
+        gap: 12px;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 17px;
+        border-radius: 11px;
+    }
+
+    .stat-info .value {
+        font-size: 20px;
+    }
+}
+
+/*  Tablet Styles (min-width: 640px) and (max-width: 1023px) */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-bottom: 28px;
+    }
+
+    .stat-card {
+        padding: 18px 16px;
+        gap: 14px;
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 21px;
+    }
+
+    .stat-info .label {
+        font-size: 13px;
+    }
+
+    .stat-info .value {
+        font-size: 23px;
+    }
+
+    .stat-info .subtext {
+        font-size: 12px;
+    }
+}
+
+/* Extra Large Desktop (min-width: 1440px) */
+@media (min-width: 1440px) {
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+        margin-bottom: 44px;
+    }
+
+    .stat-card {
+        padding: 28px 32px;
+        gap: 24px;
+        border-radius: 24px;
+    }
+
+    .stat-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        font-size: 28px;
+    }
+
+    .stat-info .label {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+
+    .stat-info .value {
+        font-size: 34px;
+    }
+
+    .stat-info .subtext {
+        font-size: 14px;
+        margin-top: 6px;
+    }
+}
