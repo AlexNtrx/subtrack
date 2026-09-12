@@ -1,19 +1,28 @@
 <?php
+// ==========================================================================
+// API: LISÄÄ UUSI TILAUS (POST Add Subscription)
+// ==========================================================================
 
 header('Content-Type: application/json; charset=utf-8');
+
+// Otetaan tietokantayhteys käyttöön
 require_once __DIR__ . '/../functions/db.php';
 
+// Varmistetaan, että pyyntö on POST-metodi
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Vain POST-pyynnöt ovat sallittuja.']);
+    http_response_code(405); // Method Not Allowed
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Vain POST-pyynnöt ovat sallittuja.'
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-// Luetaan saapuva JSON-runko
+// Luetaan saapuva JSON-runko (Request Body)
 $input = json_decode(file_get_contents('php://input'), true);
 
 if (!$input) {
-    // Jos data lähetettiin perinteisenä form-datana
+    // Jos data lähetettiin perinteisenä lomakedatana ($_POST)
     $input = $_POST;
 }
 
@@ -36,7 +45,7 @@ $dateObj = DateTime::createFromFormat('Y-m-d', $seuraava_era);
 $isValidDate = $dateObj && $dateObj->format('Y-m-d') === $seuraava_era;
 
 if (empty($palvelun_nimi) || !$isValidDate || $hinta < 0) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request
     echo json_encode([
         'success' => false,
         'message' => 'Virheelliset tiedot: Palvelun nimi, kelvollinen eräpäivä (VVVV-KK-PP) ja positiivinen hinta ovat pakollisia.'
@@ -45,6 +54,7 @@ if (empty($palvelun_nimi) || !$isValidDate || $hinta < 0) {
 }
 
 try {
+    // Lisätään uusi tilaus tietokantaan Prepared Statementilla (SQL-injektiosuojaus)
     $sql = "INSERT INTO subscriptions (palvelun_nimi, hinta, laskutusjakso, seuraava_era, maksutapa, kategoria, tila) 
             VALUES (:palvelun_nimi, :hinta, :laskutusjakso, :seuraava_era, :maksutapa, :kategoria, :tila)";
     
@@ -59,8 +69,10 @@ try {
         ':tila'          => $tila
     ]);
 
+    // Haetaan juuri luodun rivin ID
     $newId = $pdo->lastInsertId();
 
+    // Palautetaan onnistumisviesti ja uusi ID
     echo json_encode([
         'success' => true,
         'message' => 'Tilaus lisätty onnistuneesti!',
@@ -69,7 +81,7 @@ try {
 
 } catch (PDOException $e) {
     error_log('Database error in add_subscription: ' . $e->getMessage());
-    http_response_code(500);
+    http_response_code(500); // Internal Server Error
     echo json_encode([
         'success' => false,
         'message' => 'Tietokantavirhe lisäyksessä.'

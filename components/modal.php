@@ -44,7 +44,7 @@
                 <select id="formCategory" class="form-select">
                     <option value="Suoratoisto">Suoratoisto</option>
                     <option value="Työkalut">Työkalut & Pilvipalvelut</option>
-                    <option value="Vapaa-aika">Vapaa-aika & Terveys</option>
+                    <option value="Vapaa-aika">Vapaa-aika</option>
                     <option value="Muut">Muut</option>
                 </select>
             </div>

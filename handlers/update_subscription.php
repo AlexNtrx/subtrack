@@ -4,14 +4,21 @@
 // ==========================================================================
 
 header('Content-Type: application/json; charset=utf-8');
+
+// Otetaan tietokantayhteys käyttöön
 require_once __DIR__ . '/../functions/db.php';
 
+// Varmistetaan sallitut HTTP-metodit (POST ja PUT)
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $_SERVER['REQUEST_METHOD'] !== 'PUT') {
     http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Vain POST- ja PUT-pyynnöt ovat sallittuja.']);
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Vain POST- ja PUT-pyynnöt ovat sallittuja.'
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
+// Luetaan saapuva JSON-runko
 $input = json_decode(file_get_contents('php://input'), true);
 if (!$input) {
     $input = $_POST;
@@ -36,7 +43,7 @@ $dateObj = DateTime::createFromFormat('Y-m-d', $seuraava_era);
 $isValidDate = $dateObj && $dateObj->format('Y-m-d') === $seuraava_era;
 
 if ($id <= 0 || empty($palvelun_nimi) || !$isValidDate || $hinta < 0) {
-    http_response_code(400);
+    http_response_code(400); // Bad Request
     echo json_encode([
         'success' => false,
         'message' => 'Virheelliset tiedot: ID, palvelun nimi, kelvollinen eräpäivä (VVVV-KK-PP) ja positiivinen hinta ovat pakollisia.'
@@ -49,7 +56,7 @@ try {
     $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM subscriptions WHERE id = :id");
     $checkStmt->execute([':id' => $id]);
     if ($checkStmt->fetchColumn() == 0) {
-        http_response_code(404);
+        http_response_code(404); // Not Found
         echo json_encode([
             'success' => false,
             'message' => 'Tilausta ei löytynyt annetulla ID:llä.'
@@ -57,6 +64,7 @@ try {
         exit;
     }
 
+    // Päivitetään tiedot tietokantaan UPDATE-lauseella
     $sql = "UPDATE subscriptions 
             SET palvelun_nimi = :palvelun_nimi, 
                 hinta = :hinta, 
@@ -79,6 +87,7 @@ try {
         ':tila'          => $tila
     ]);
 
+    // Palautetaan onnistumisviesti
     echo json_encode([
         'success' => true,
         'message' => 'Tilaus päivitetty onnistuneesti!'
@@ -86,7 +95,7 @@ try {
 
 } catch (PDOException $e) {
     error_log('Database error in update_subscription: ' . $e->getMessage());
-    http_response_code(500);
+    http_response_code(500); // Internal Server Error
     echo json_encode([
         'success' => false,
         'message' => 'Tietokantavirhe päivityksessä.'

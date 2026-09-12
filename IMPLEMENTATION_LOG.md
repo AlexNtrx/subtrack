@@ -110,6 +110,24 @@
   6. เพิ่ม Mobile Styles ให้ Header และ Cards Grid สวยงามบนหน้าจอมือถือ (<= 480px)
 - **สถานะ**: สำเร็จ (Verified)
 
+---
+
+## การแก้ไข Conflict และผสานสาขา (Merge Conflict Resolution: origin/main -> master)
+- **วันที่**: 2026-09-12
+- **สาขาที่เกี่ยวข้อง**: `origin/main` ผสานเข้ากับ `master`
+- **รายละเอียดการแก้ไข**:
+  1. แก้ไข Conflict ใน `functions/db.php`: รวม `PDO::ATTR_DEFAULT_FETCH_MODE` ที่ถูกต้อง พร้อมระบบซ่อน Database Error และบันทึก `error_log`
+  2. แก้ไข Conflict ใน `handlers/*.php`: รวมระบบ ENUM Whitelist, การตรวจสอบฟอร์แมตวันที่ `YYYY-MM-DD`, การตรวจสอบ 404 (ID Existence Check) และระบบ Response JSON ที่ปลอดภัย
+  3. ผสานโครงสร้าง JavaScript แบบโมดูลาร์ (`js/api.js`, `js/ui.js`, `js/app.js`):
+     - ป้องกัน XSS ด้วย `escapeHtml()`
+     - ย้ายฟังก์ชันการคำนวณ eräpäivä ถัดไปที่ปรับปรุงแล้ว (ไม่นำวันในอดีตมาแสดง) เข้า `js/ui.js`
+     - ย้ายฟังก์ชันการปิด Modal ด้วย `Escape` และ Backdrop Overlay เข้า `js/app.js`
+     - ปรับข้อความปุ่มบันทึก/อัปเดตแบบ Dynamic
+     - ลบไฟล์ JavaScript เก่า (`functions/tracker_utils.js`, `handlers/sub_handlers.js`) ที่ไม่ได้ใช้งานแล้วออก
+  4. แก้ไข Conflict ใน CSS (`css/cards.css`, `css/controls.css`, `css/header.css`, `css/modal.css`): รวมโครงสร้าง Responsive ขั้นสูง, Skeleton Loading Cards, Toast Notifications, และ Empty States เข้าด้วยกันอย่างไร้รอยต่อ
+- **สถานะ**: ผสานสำเร็จเรียบร้อย (Merged & Verified)
+
+
 
 
 

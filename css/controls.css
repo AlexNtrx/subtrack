@@ -1,6 +1,6 @@
-/* ==========================================================================
-   4. SUODATTIMET JA HAKU (Controls Styles)
-   ========================================================================== */
+/*
+   4. SUODATTIMET JA HAKU
+   */
 .controls-bar {
     display: flex;
     justify-content: space-between;
@@ -39,6 +39,52 @@
     font-weight: 700;
 }
 
+.controls-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.sort-box {
+    position: relative;
+}
+
+.sort-box i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.sort-select {
+    padding: 10px 16px 10px 38px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-card);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+    padding-right: 32px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+}
+
+.sort-select:focus {
+    border-color: var(--mint-primary);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
 .search-box {
     position: relative;
     min-width: 240px;
@@ -69,19 +115,22 @@
     border-color: var(--mint-primary);
 }
 
-/* Mobiiliresponsiivisuus */
-@media (max-width: 640px) {
+/* Mobile Styles (max-width: 639px) */
+@media (max-width: 639px) {
     .controls-bar {
         flex-direction: column;
         align-items: stretch;
         gap: 12px;
+        margin-bottom: 20px;
     }
 
     .filter-tabs {
+        width: 100%;
+        display: flex;
         overflow-x: auto;
-        padding: 4px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+        padding: 4px;
     }
 
     .filter-tabs::-webkit-scrollbar {
@@ -90,11 +139,95 @@
 
     .tab-btn {
         white-space: nowrap;
+        padding: 9px 14px;
+        font-size: 13.5px;
+        flex-shrink: 0;
+    }
+
+    .controls-right {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .sort-box,
+    .search-box {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .sort-select {
+        width: 100%;
+        padding: 11px 16px 11px 38px;
+        font-size: 14px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 11px 16px 11px 40px;
+        font-size: 14px;
+    }
+}
+
+/* very small screens (max-width: 380px) */
+@media (max-width: 380px) {
+    .tab-btn {
+        padding: 8px 10px;
+        font-size: 12.5px;
+    }
+}
+
+/* 2. Tablet Styles (min-width: 640px) and (max-width: 1023px) */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .controls-bar {
+        gap: 12px;
+        margin-bottom: 22px;
+    }
+
+    .controls-right {
+        flex: 1;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .sort-box {
         flex-shrink: 0;
     }
 
     .search-box {
-        width: 100%;
-        min-width: unset;
+        flex: 1;
+        max-width: 260px;
+        min-width: 170px;
+    }
+}
+
+/* 3. Extra Large Desktop (min-width: 1440px) */
+@media (min-width: 1440px) {
+    .controls-bar {
+        margin-bottom: 30px;
+        gap: 20px;
+    }
+
+    .tab-btn {
+        padding: 10px 22px;
+        font-size: 15px;
+        border-radius: 14px;
+    }
+
+    .sort-select {
+        padding: 12px 20px 12px 42px;
+        font-size: 15px;
+        border-radius: 14px;
+        background-position: right 14px center;
+    }
+
+    .search-box {
+        min-width: 320px;
+    }
+
+    .search-input {
+        padding: 12px 20px 12px 44px;
+        font-size: 15px;
+        border-radius: 14px;
     }
 }

@@ -3,20 +3,28 @@
 // API: HAE KAIKKI TILAUKSET (GET Subscriptions)
 // ==========================================================================
 
+// Kerrotaan selaimelle, että vastaus on JSON-muodossa
 header('Content-Type: application/json; charset=utf-8');
+
+// Otetaan tietokantayhteys käyttöön ($pdo)
 require_once __DIR__ . '/../functions/db.php';
 
 try {
-    // Haetaan kaikki tilaukset järjestettynä seuraavan eräpäivän mukaan
-    $stmt = $pdo->query("SELECT id, palvelun_nimi, hinta, laskutusjakso, seuraava_era, maksutapa, kategoria, tila FROM subscriptions ORDER BY seuraava_era ASC");
-    $subscriptions = $stmt->fetchAll();
+    // Haetaan kaikki tilaukset tietokannasta järjestettynä seuraavan eräpäivän mukaan
+    $sql = "SELECT id, palvelun_nimi, hinta, laskutusjakso, seuraava_era, maksutapa, kategoria, tila 
+            FROM subscriptions 
+            ORDER BY seuraava_era ASC";
+    
+    $stmt = $pdo->query($sql);
+    $subscriptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Varmistetaan, että hinta on numeerisessa muodossa
+    // Muunnetaan hinta numeroksi ja id merkkijonoksi
     foreach ($subscriptions as &$sub) {
         $sub['hinta'] = (float)$sub['hinta'];
-        $sub['id'] = (string)$sub['id']; // Pidetään ID merkkijonona yhteensopivuuden vuoksi
+        $sub['id'] = (string)$sub['id'];
     }
 
+    // Palautetaan data onnistuneesti JSON-muodossa
     echo json_encode([
         'success' => true,
         'data' => $subscriptions

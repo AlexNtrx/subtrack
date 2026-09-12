@@ -10,7 +10,7 @@ $dsn = "mysql:host=$db_host;dbname=$db_name;charset=$charset";
 
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // Virheet heitetään poikkeuksina
-    PDO::ATTR_DEFAULTFETCH_MODE => PDO::FETCH_ASSOC,       // Palauttaa tulokset assosiatiivisena taulukkona
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,       // Palauttaa tulokset assosiatiivisena taulukkona
     PDO::ATTR_EMULATE_PREPARES   => false,                  // Aito SQL-injektiosuojaus (Prepared Statements)
 ];
 
