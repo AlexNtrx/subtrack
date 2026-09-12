@@ -52,4 +52,16 @@
   4. เพิ่มการตรวจสอบการมีอยู่ของข้อมูลจริง (Existence check) ใน `update_subscription.php`, `delete_subscription.php`, และ `toggle_status.php` หากไม่มี ID ในระบบจะตอบกลับ HTTP 404 พร้อมข้อความที่ชัดเจน
 - **สถานะ**: สำเร็จ (Verified & Syntax checked)
 
+---
+
+## จุดที่ 3: เพิ่มตัวกรองหมวดหมู่ "Muut" ใน Controls Bar
+- **วันที่**: 2026-09-12
+- **ไฟล์ที่แก้ไข**:
+  - `components/controls.php`
+- **รายละเอียดการแก้ไข**:
+  1. เพิ่มปุ่มแท็บ `<button class="tab-btn" data-cat="Muut">Muut</button>` ในส่วน Filter Tabs
+  2. ทำให้ผู้ใช้สามารถกดกรองดูเฉพาะรายการในหมวดหมู่ "Muut" (อื่นๆ) ได้ครบถ้วนตรงกับหมวดหมู่ที่มีในฐานข้อมูลและ Modal
+- **สถานะ**: สำเร็จ (Verified)
+
+
 
