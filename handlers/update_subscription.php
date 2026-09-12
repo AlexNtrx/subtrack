@@ -17,25 +17,46 @@ if (!$input) {
     $input = $_POST;
 }
 
+// Sallitut arvot (ENUM Whitelist)
+$allowedCycles = ['Kuukausittain', 'Vuosittain'];
+$allowedCategories = ['Suoratoisto', 'Työkalut', 'Vapaa-aika', 'Muut'];
+$allowedStatuses = ['Aktiivinen', 'Tauolla'];
+
 $id = intval($input['id'] ?? 0);
 $palvelun_nimi = trim($input['palvelun_nimi'] ?? '');
 $hinta = floatval($input['hinta'] ?? 0);
-$laskutusjakso = trim($input['laskutusjakso'] ?? 'Kuukausittain');
+$laskutusjakso = in_array($input['laskutusjakso'] ?? '', $allowedCycles, true) ? $input['laskutusjakso'] : 'Kuukausittain';
 $seuraava_era = trim($input['seuraava_era'] ?? '');
 $maksutapa = trim($input['maksutapa'] ?? 'Maksukortti');
-$kategoria = trim($input['kategoria'] ?? 'Muut');
-$tila = trim($input['tila'] ?? 'Aktiivinen');
+$kategoria = in_array($input['kategoria'] ?? '', $allowedCategories, true) ? $input['kategoria'] : 'Muut';
+$tila = in_array($input['tila'] ?? '', $allowedStatuses, true) ? $input['tila'] : 'Aktiivinen';
 
-if ($id <= 0 || empty($palvelun_nimi) || empty($seuraava_era) || $hinta < 0) {
+// Tarkistetaan päivämäärän muoto (YYYY-MM-DD)
+$dateObj = DateTime::createFromFormat('Y-m-d', $seuraava_era);
+$isValidDate = $dateObj && $dateObj->format('Y-m-d') === $seuraava_era;
+
+if ($id <= 0 || empty($palvelun_nimi) || !$isValidDate || $hinta < 0) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
-        'message' => 'Virheelliset tiedot muokkauksessa.'
+        'message' => 'Virheelliset tiedot: ID, palvelun nimi, kelvollinen eräpäivä (VVVV-KK-PP) ja positiivinen hinta ovat pakollisia.'
     ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
 try {
+    // Tarkistetaan löytyykö tilaus
+    $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM subscriptions WHERE id = :id");
+    $checkStmt->execute([':id' => $id]);
+    if ($checkStmt->fetchColumn() == 0) {
+        http_response_code(404);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Tilausta ei löytynyt annetulla ID:llä.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     $sql = "UPDATE subscriptions 
             SET palvelun_nimi = :palvelun_nimi, 
                 hinta = :hinta, 
@@ -64,9 +85,10 @@ try {
     ], JSON_UNESCAPED_UNICODE);
 
 } catch (PDOException $e) {
+    error_log('Database error in update_subscription: ' . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Tietokantavirhe päivityksessä: ' . $e->getMessage()
+        'message' => 'Tietokantavirhe päivityksessä.'
     ], JSON_UNESCAPED_UNICODE);
 }

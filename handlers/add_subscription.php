@@ -17,20 +17,29 @@ if (!$input) {
     $input = $_POST;
 }
 
-// Validoidaan pakolliset kentät
+// Sallitut arvot (ENUM Whitelist)
+$allowedCycles = ['Kuukausittain', 'Vuosittain'];
+$allowedCategories = ['Suoratoisto', 'Työkalut', 'Vapaa-aika', 'Muut'];
+$allowedStatuses = ['Aktiivinen', 'Tauolla'];
+
+// Validoidaan ja normalisoidaan kentät
 $palvelun_nimi = trim($input['palvelun_nimi'] ?? '');
 $hinta = floatval($input['hinta'] ?? 0);
-$laskutusjakso = trim($input['laskutusjakso'] ?? 'Kuukausittain');
+$laskutusjakso = in_array($input['laskutusjakso'] ?? '', $allowedCycles, true) ? $input['laskutusjakso'] : 'Kuukausittain';
 $seuraava_era = trim($input['seuraava_era'] ?? '');
 $maksutapa = trim($input['maksutapa'] ?? 'Maksukortti');
-$kategoria = trim($input['kategoria'] ?? 'Muut');
-$tila = trim($input['tila'] ?? 'Aktiivinen');
+$kategoria = in_array($input['kategoria'] ?? '', $allowedCategories, true) ? $input['kategoria'] : 'Muut';
+$tila = in_array($input['tila'] ?? '', $allowedStatuses, true) ? $input['tila'] : 'Aktiivinen';
 
-if (empty($palvelun_nimi) || empty($seuraava_era) || $hinta < 0) {
+// Tarkistetaan päivämäärän muoto (YYYY-MM-DD)
+$dateObj = DateTime::createFromFormat('Y-m-d', $seuraava_era);
+$isValidDate = $dateObj && $dateObj->format('Y-m-d') === $seuraava_era;
+
+if (empty($palvelun_nimi) || !$isValidDate || $hinta < 0) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
-        'message' => 'Virheelliset tiedot: Palvelun nimi, hinta ja eräpäivä ovat pakollisia kenttiä.'
+        'message' => 'Virheelliset tiedot: Palvelun nimi, kelvollinen eräpäivä (VVVV-KK-PP) ja positiivinen hinta ovat pakollisia.'
     ], JSON_UNESCAPED_UNICODE);
     exit;
 }
@@ -59,9 +68,10 @@ try {
     ], JSON_UNESCAPED_UNICODE);
 
 } catch (PDOException $e) {
+    error_log('Database error in add_subscription: ' . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Tietokantavirhe lisäyksessä: ' . $e->getMessage()
+        'message' => 'Tietokantavirhe lisäyksessä.'
     ], JSON_UNESCAPED_UNICODE);
 }

@@ -17,10 +17,11 @@ $options = [
 try {
     $pdo = new PDO($dsn, $db_user, $db_pass, $options);
 } catch (PDOException $e) {
-    header('Content-Type: application/json', true, 500);
+    error_log('Database connection error: ' . $e->getMessage());
+    header('Content-Type: application/json; charset=utf-8', true, 500);
     echo json_encode([
         'success' => false,
-        'message' => 'Tietokantayhteyden muodostus epäonnistui: ' . $e->getMessage()
-    ]);
+        'message' => 'Tietokantayhteyden muodostus epäonnistui. Tarkista palvelimen asetukset.'
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }

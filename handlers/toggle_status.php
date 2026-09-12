@@ -29,14 +29,24 @@ if ($id <= 0) {
 }
 
 try {
-    // Vaihdetaan tila vastakkaiseksi (Aktiivinen <-> Tauolla)
-    $stmt = $pdo->prepare("UPDATE subscriptions SET tila = IF(tila = 'Aktiivinen', 'Tauolla', 'Aktiivinen') WHERE id = :id");
-    $stmt->execute([':id' => $id]);
-
-    // Haetaan päivitetty tila
+    // Tarkistetaan löytyykö tilaus
     $checkStmt = $pdo->prepare("SELECT tila FROM subscriptions WHERE id = :id");
     $checkStmt->execute([':id' => $id]);
-    $newStatus = $checkStmt->fetchColumn();
+    $currentStatus = $checkStmt->fetchColumn();
+
+    if ($currentStatus === false) {
+        http_response_code(404);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Tilausta ei löytynyt annetulla ID:llä.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    // Vaihdetaan tila vastakkaiseksi (Aktiivinen <-> Tauolla)
+    $newStatus = ($currentStatus === 'Aktiivinen') ? 'Tauolla' : 'Aktiivinen';
+    $updateStmt = $pdo->prepare("UPDATE subscriptions SET tila = :tila WHERE id = :id");
+    $updateStmt->execute([':tila' => $newStatus, ':id' => $id]);
 
     echo json_encode([
         'success'   => true,
@@ -45,9 +55,10 @@ try {
     ], JSON_UNESCAPED_UNICODE);
 
 } catch (PDOException $e) {
+    error_log('Database error in toggle_status: ' . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Tietokantavirhe tilan vaihdossa: ' . $e->getMessage()
+        'message' => 'Tietokantavirhe tilan vaihdossa.'
     ], JSON_UNESCAPED_UNICODE);
 }

@@ -32,15 +32,25 @@ try {
     $stmt = $pdo->prepare("DELETE FROM subscriptions WHERE id = :id");
     $stmt->execute([':id' => $id]);
 
+    if ($stmt->rowCount() === 0) {
+        http_response_code(404);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Tilausta ei löytynyt tai se on jo poistettu.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     echo json_encode([
         'success' => true,
         'message' => 'Tilaus poistettu onnistuneesti!'
     ], JSON_UNESCAPED_UNICODE);
 
 } catch (PDOException $e) {
+    error_log('Database error in delete_subscription: ' . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Tietokantavirhe poistettaessa: ' . $e->getMessage()
+        'message' => 'Tietokantavirhe poistettaessa.'
     ], JSON_UNESCAPED_UNICODE);
 }

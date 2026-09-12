@@ -34,3 +34,22 @@
   5. ใช้งาน Event Delegation บน `#subscriptionsContainer` ใน `handlers/sub_handlers.js` เพื่อดักจับคลิกผ่าน `data-id` อย่างปลอดภัย
 - **สถานะ**: สำเร็จ (Verified)
 
+---
+
+## จุดที่ 2: ความปลอดภัยและ Input Validation ฝั่ง Backend
+- **วันที่**: 2026-09-12
+- **ไฟล์ที่แก้ไข**:
+  - `functions/db.php`
+  - `handlers/get_subscriptions.php`
+  - `handlers/add_subscription.php`
+  - `handlers/update_subscription.php`
+  - `handlers/delete_subscription.php`
+  - `handlers/toggle_status.php`
+- **รายละเอียดการแก้ไข**:
+  1. ป้องกัน Information Disclosure: ปรับปรุงการ catch `PDOException` ในทุกไฟล์ โดยบันทึกข้อผิดพลาดจริงผ่าน `error_log()` และส่งข้อความ Generic กลับไปทาง JSON ไม่เปิดเผยชื่อตารางหรือ Database Credential
+  2. ป้องกัน SQL Exception จากค่าแปลกปลอมด้วย ENUM Whitelisting สำหรับ `laskutusjakso`, `kategoria`, `tila`
+  3. เพิ่มการตรวจสอบความถูกต้องของฟอร์แมตวันที่ `YYYY-MM-DD` ด้วย `DateTime::createFromFormat` ใน `add_subscription.php` และ `update_subscription.php`
+  4. เพิ่มการตรวจสอบการมีอยู่ของข้อมูลจริง (Existence check) ใน `update_subscription.php`, `delete_subscription.php`, และ `toggle_status.php` หากไม่มี ID ในระบบจะตอบกลับ HTTP 404 พร้อมข้อความที่ชัดเจน
+- **สถานะ**: สำเร็จ (Verified & Syntax checked)
+
+
