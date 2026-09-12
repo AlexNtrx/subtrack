@@ -25,6 +25,7 @@ async function loadSubscriptions(showSkeleton = false) {
         }
     } catch (err) {
         console.error('Virhe haettaessa tilauksia:', err);
+        SubTrackerUI.showToast('Tietokantayhteyden muodostus epäonnistui. Varmista, että tietokantapalvelin on käynnissä.', 'error', 5000);
     }
     SubTrackerUI.renderSubscriptions(subscriptions, activeCategoryFilter, searchQuery, currentSort);
 }
@@ -185,11 +186,11 @@ async function handleFormSubmit(e) {
     const id = document.getElementById('editSubId').value;
 
     const formData = {
-        palvelun_nimi: document.getElementById('formName').value,
-        hinta: parseFloat(document.getElementById('formPrice').value),
+        palvelun_nimi: document.getElementById('formName').value.trim(),
+        hinta: parseFloat(document.getElementById('formPrice').value) || 0,
         laskutusjakso: document.getElementById('formCycle').value,
         seuraava_era: document.getElementById('formDate').value,
-        maksutapa: document.getElementById('formPayment').value,
+        maksutapa: document.getElementById('formPayment').value.trim() || 'Maksukortti',
         kategoria: document.getElementById('formCategory').value,
         tila: document.getElementById('formStatus').value
     };

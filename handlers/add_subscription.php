@@ -36,7 +36,7 @@ $palvelun_nimi = trim($input['palvelun_nimi'] ?? '');
 $hinta = floatval($input['hinta'] ?? 0);
 $laskutusjakso = in_array($input['laskutusjakso'] ?? '', $allowedCycles, true) ? $input['laskutusjakso'] : 'Kuukausittain';
 $seuraava_era = trim($input['seuraava_era'] ?? '');
-$maksutapa = trim($input['maksutapa'] ?? 'Maksukortti');
+$maksutapa = !empty(trim($input['maksutapa'] ?? '')) ? trim($input['maksutapa']) : 'Maksukortti';
 $kategoria = in_array($input['kategoria'] ?? '', $allowedCategories, true) ? $input['kategoria'] : 'Muut';
 $tila = in_array($input['tila'] ?? '', $allowedStatuses, true) ? $input['tila'] : 'Aktiivinen';
 
