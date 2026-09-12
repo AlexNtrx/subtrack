@@ -77,6 +77,33 @@ document.addEventListener('DOMContentLoaded', () => {
             renderSubscriptions();
         });
     });
+
+    // Event Delegation: Tilaustoiminnot (Tauota/Aktivoi, Muokkaa, Poista)
+    const subscriptionsContainer = document.getElementById('subscriptionsContainer');
+    if (subscriptionsContainer) {
+        subscriptionsContainer.addEventListener('click', (e) => {
+            const toggleBtn = e.target.closest('.btn-toggle-pause');
+            if (toggleBtn) {
+                const id = toggleBtn.getAttribute('data-id');
+                window.togglePause(id);
+                return;
+            }
+
+            const editBtn = e.target.closest('.btn-edit-sub');
+            if (editBtn) {
+                const id = editBtn.getAttribute('data-id');
+                window.openEditModal(id);
+                return;
+            }
+
+            const deleteBtn = e.target.closest('.btn-delete-sub');
+            if (deleteBtn) {
+                const id = deleteBtn.getAttribute('data-id');
+                window.deleteSub(id);
+                return;
+            }
+        });
+    }
 });
 
 // Globaalit toiminnot (kutsutaan HTML-elementeistä inline onclick -attribuuteilla)

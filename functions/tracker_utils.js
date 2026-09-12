@@ -8,6 +8,19 @@ let activeCategoryFilter = 'Kaikki';
 let searchQuery = '';
 
 /**
+ * Escape HTML special characters to prevent Cross-Site Scripting (XSS)
+ */
+function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+/**
  * Palauttaa kategorian visuaaliset tyylit ja ikonit
  */
 function getCategoryStyle(cat) {
@@ -86,9 +99,17 @@ function renderSubscriptions() {
         filtered.forEach(sub => {
             const catStyle = getCategoryStyle(sub.kategoria);
             const isActive = sub.tila === 'Aktiivinen';
+            const escapedId = escapeHtml(sub.id);
+            const escapedName = escapeHtml(sub.palvelun_nimi);
+            const escapedCategory = escapeHtml(sub.kategoria);
+            const escapedDate = escapeHtml(sub.seuraava_era || 'Ei asetettu');
+            const escapedPayment = escapeHtml(sub.maksutapa || 'Kortti');
+            const escapedStatus = escapeHtml(sub.tila);
+            const price = Number(sub.hinta).toFixed(2);
             
             const card = document.createElement('div');
             card.className = 'sub-card';
+            card.setAttribute('data-id', escapedId);
 
             card.innerHTML = `
                 <div>
@@ -98,21 +119,21 @@ function renderSubscriptions() {
                                 <i class="fa-solid ${catStyle.icon}"></i>
                             </div>
                             <div class="service-details">
-                                <h3>${sub.palvelun_nimi}</h3>
-                                <span class="badge-cat" style="background: ${catStyle.bg}; color: ${catStyle.color};">${sub.kategoria}</span>
+                                <h3>${escapedName}</h3>
+                                <span class="badge-cat" style="background: ${catStyle.bg}; color: ${catStyle.color};">${escapedCategory}</span>
                             </div>
                         </div>
-                        <span class="status-pill ${isActive ? 'active' : 'paused'}">${sub.tila}</span>
+                        <span class="status-pill ${isActive ? 'active' : 'paused'}">${escapedStatus}</span>
                     </div>
 
                     <div class="sub-body">
                         <div class="price-row">
-                            <span class="price-amount">${Number(sub.hinta).toFixed(2)} €</span>
+                            <span class="price-amount">${price} €</span>
                             <span class="price-cycle">/ ${sub.laskutusjakso === 'Vuosittain' ? 'vuosi' : 'kk'}</span>
                         </div>
                         <div class="meta-row">
                             <span class="meta-item">
-                                <i class="fa-regular fa-calendar-check"></i> Uusiutuu: ${sub.seuraava_era || 'Ei asetettu'}
+                                <i class="fa-regular fa-calendar-check"></i> Uusiutuu: ${escapedDate}
                             </span>
                         </div>
                     </div>
@@ -120,14 +141,14 @@ function renderSubscriptions() {
 
                 <div class="sub-footer">
                     <span class="payment-method">
-                        <i class="fa-regular fa-credit-card"></i> ${sub.maksutapa || 'Kortti'}
+                        <i class="fa-regular fa-credit-card"></i> ${escapedPayment}
                     </span>
                     <div class="card-actions">
-                        <button class="action-btn" onclick="togglePause('${sub.id}')" title="${isActive ? 'Tauota' : 'Aktivoi'}">
+                        <button class="action-btn btn-toggle-pause" data-id="${escapedId}" title="${isActive ? 'Tauota' : 'Aktivoi'}">
                             <i class="fa-solid ${isActive ? 'fa-pause' : 'fa-play'}"></i>
                         </button>
-                        <button class="action-btn" onclick="openEditModal('${sub.id}')" title="Muokkaa"><i class="fa-solid fa-pen"></i></button>
-                        <button class="action-btn delete" onclick="deleteSub('${sub.id}')" title="Poista"><i class="fa-solid fa-trash"></i></button>
+                        <button class="action-btn btn-edit-sub" data-id="${escapedId}" title="Muokkaa"><i class="fa-solid fa-pen"></i></button>
+                        <button class="action-btn delete btn-delete-sub" data-id="${escapedId}" title="Poista"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
             `;
