@@ -21,6 +21,42 @@ function escapeHtml(str) {
 }
 
 /**
+ * Hakee tilaukset tietokannasta API:n kautta
+ */
+async function loadSubscriptions() {
+    const container = document.getElementById('subscriptionsContainer');
+    try {
+        const response = await fetch('handlers/get_subscriptions.php');
+        const result = await response.json();
+
+        if (result.success && Array.isArray(result.data)) {
+            subscriptions = result.data;
+            renderSubscriptions();
+        } else {
+            console.error('Virhe ladattaessa tilauksia:', result.message);
+            if (container) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #fff5f5; border-radius: var(--radius-card); border: 1px solid #fed7d7;">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size: 32px; color: #e53e3e; margin-bottom: 12px;"></i>
+                        <p style="color: #c53030; font-weight: 600;">${escapeHtml(result.message || 'Tilausten lataus epäonnistui.')}</p>
+                    </div>
+                `;
+            }
+        }
+    } catch (err) {
+        console.error('Yhteysvirhe:', err);
+        if (container) {
+            container.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #fff5f5; border-radius: var(--radius-card); border: 1px solid #fed7d7;">
+                    <i class="fa-solid fa-plug-circle-xmark" style="font-size: 32px; color: #e53e3e; margin-bottom: 12px;"></i>
+                    <p style="color: #c53030; font-weight: 600;">Yhteys palvelimeen epäonnistui. Varmista, että tietokanta ja palvelin ovat käynnissä.</p>
+                </div>
+            `;
+        }
+    }
+}
+
+/**
  * Palauttaa kategorian visuaaliset tyylit ja ikonit
  */
 function getCategoryStyle(cat) {

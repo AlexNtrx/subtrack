@@ -63,5 +63,21 @@
   2. ทำให้ผู้ใช้สามารถกดกรองดูเฉพาะรายการในหมวดหมู่ "Muut" (อื่นๆ) ได้ครบถ้วนตรงกับหมวดหมู่ที่มีในฐานข้อมูลและ Modal
 - **สถานะ**: สำเร็จ (Verified)
 
+---
+
+## จุดที่ 4: เชื่อมต่อ Frontend เข้ากับ Backend API (Full CRUD)
+- **วันที่**: 2026-09-12
+- **ไฟล์ที่แก้ไข**:
+  - `functions/tracker_utils.js`
+  - `handlers/sub_handlers.js`
+- **รายละเอียดการแก้ไข**:
+  1. สร้างฟังก์ชัน `loadSubscriptions()` ใน `tracker_utils.js` ดึงข้อมูลผ่าน `GET handlers/get_subscriptions.php` มาแสดงผลอัตโนมัติเมื่อเปิดหน้าเว็บ พร้อมจัดการ State กรณีเกิด Error หรือไม่สามารถเชื่อมต่อฐานข้อมูลได้
+  2. เชื่อมต่อฟอร์มเพิ่ม/แก้ไข (`addSubForm`) เข้ากับ `POST handlers/add_subscription.php` และ `handlers/update_subscription.php` แบบ Asynchronous JSON พร้อมอัปเดตสถานะปุ่ม "Tallennetaan..." ป้องกันการกดซ้ำ
+  3. เชื่อมต่อปุ่มเปิด/ปิดสถานะ (`togglePause`) เข้ากับ `POST handlers/toggle_status.php` เพื่อเปลี่ยนสถานะในฐานข้อมูล MySQL จริง
+  4. เชื่อมต่อปุ่มลบ (`deleteSub`) เข้ากับ `POST handlers/delete_subscription.php` พร้อมกล่องยืนยันการลบ
+  5. เมื่อการดำเนินการใด ๆ สำเร็จ ข้อมูลจะถูกโหลดใหม่จาก Database และบันทึกถาวร ไม่สูญหายเมื่อรีเฟรชหน้าจอ
+- **สถานะ**: สำเร็จ (Verified)
+
+
 
 
