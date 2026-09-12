@@ -96,13 +96,39 @@ function updateSummaryStats() {
     if (totalCountEl) totalCountEl.innerText = subscriptions.length + ' kpl';
     if (activeVsPausedEl) activeVsPausedEl.innerText = `${activeSubs.length} aktiivista, ${subscriptions.length - activeSubs.length} tauolla`;
 
-    // Laske seuraava uusiutuva tilaus
+    // Laske seuraava uusiutuva tilaus (priorisoidaan tulevat ja tämän päivän eräpäivät)
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
     if (activeSubs.length > 0) {
-        const sorted = [...activeSubs].filter(s => s.seuraava_era).sort((a, b) => new Date(a.seuraava_era) - new Date(b.seuraava_era));
-        if (sorted.length > 0) {
-            const next = sorted[0];
+        // Etsitään tulevat eräpäivät (tänään tai myöhemmin)
+        const upcoming = [...activeSubs]
+            .filter(s => s.seuraava_era && s.seuraava_era >= todayStr)
+            .sort((a, b) => a.seuraava_era.localeCompare(b.seuraava_era));
+
+        if (upcoming.length > 0) {
+            const next = upcoming[0];
+            const isToday = next.seuraava_era === todayStr;
             if (nextBillingTextEl) nextBillingTextEl.innerText = next.palvelun_nimi;
-            if (nextBillingSubEl) nextBillingSubEl.innerText = `${next.seuraava_era} (${Number(next.hinta).toFixed(2)} €)`;
+            if (nextBillingSubEl) {
+                nextBillingSubEl.innerText = isToday 
+                    ? `Tänään! (${Number(next.hinta).toFixed(2)} €)`
+                    : `${next.seuraava_era} (${Number(next.hinta).toFixed(2)} €)`;
+            }
+        } else {
+            // Jos ei tulevia, tarkistetaan onko menneitä (erääntyneitä)
+            const overdue = [...activeSubs]
+                .filter(s => s.seuraava_era && s.seuraava_era < todayStr)
+                .sort((a, b) => b.seuraava_era.localeCompare(a.seuraava_era));
+
+            if (overdue.length > 0) {
+                const latest = overdue[0];
+                if (nextBillingTextEl) nextBillingTextEl.innerText = `${latest.palvelun_nimi} (Erääntynyt)`;
+                if (nextBillingSubEl) nextBillingSubEl.innerText = `${latest.seuraava_era} (${Number(latest.hinta).toFixed(2)} €)`;
+            } else {
+                if (nextBillingTextEl) nextBillingTextEl.innerText = '-';
+                if (nextBillingSubEl) nextBillingSubEl.innerText = 'Ei erääntyviä';
+            }
         }
     } else {
         if (nextBillingTextEl) nextBillingTextEl.innerText = '-';
