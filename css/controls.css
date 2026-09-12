@@ -68,3 +68,33 @@
 .search-input:focus {
     border-color: var(--mint-primary);
 }
+
+/* Mobiiliresponsiivisuus */
+@media (max-width: 640px) {
+    .controls-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .filter-tabs {
+        overflow-x: auto;
+        padding: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab-btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .search-box {
+        width: 100%;
+        min-width: unset;
+    }
+}

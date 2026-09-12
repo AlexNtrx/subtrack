@@ -91,6 +91,26 @@
   4. กรณีไม่มีบิลในอนาคต แต่มีบิลค้างในอดีต จะแสดงชื่อบริการพร้อมวงเล็บกำกับว่า "(Erääntynyt)" ให้ผู้ใช้รับทราบอย่างชัดเจน
 - **สถานะ**: สำเร็จ (Verified)
 
+---
+
+## จุดที่ 6: ปรับปรุง Modal UX และ Responsive CSS
+- **วันที่**: 2026-09-12
+- **ไฟล์ที่แก้ไข**:
+  - `handlers/sub_handlers.js`
+  - `css/modal.css`
+  - `css/controls.css`
+  - `css/cards.css`
+  - `css/header.css`
+- **รายละเอียดการแก้ไข**:
+  1. เพิ่มฟังก์ชันการปิด Modal เมื่อผู้ใช้กดปุ่ม `Escape` บนคีย์บอร์ด
+  2. เพิ่ม Event Listener ดักจับการคลิกที่พื้นหลังมืด (Backdrop Overlay) นอก Modal Card เพื่อปิดหน้าต่างอัตโนมัติ
+  3. ปรับปรุงการสลับข้อความปุ่มบันทึกระหว่าง "Tallenna tilaus" (เมื่อเพิ่มใหม่) และ "Päivitä tilaus" (เมื่อแก้ไข) อย่างถูกต้อง
+  4. เพิ่ม Responsive Breakpoint `@media (max-width: 640px)` สำหรับ Modal ให้ปรับช่องกรอก `.form-row` เป็นคอลัมน์เดี่ยว และจัดวางปุ่ม Actions เต็มความกว้าง
+  5. เพิ่ม Mobile Styles ให้ Filter Tabs เลื่อน Scroll แนวนอนได้บนหน้าจอแคบโดยไม่ตกขอบ
+  6. เพิ่ม Mobile Styles ให้ Header และ Cards Grid สวยงามบนหน้าจอมือถือ (<= 480px)
+- **สถานะ**: สำเร็จ (Verified)
+
+
 
 
 

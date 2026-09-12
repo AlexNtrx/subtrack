@@ -35,6 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
     if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeModal);
 
+    // Sulje klikkaamalla taustaa (backdrop)
+    if (addModal) {
+        addModal.addEventListener('click', (e) => {
+            if (e.target === addModal) closeModal();
+        });
+    }
+
+    // Sulje Esc-näppäimellä
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && addModal && addModal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
     // Tallenna lomake (Lisää tai Muokkaa tietokantaan)
     if (addSubForm) {
         addSubForm.addEventListener('submit', async (e) => {

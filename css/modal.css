@@ -129,3 +129,27 @@
     cursor: pointer;
     box-shadow: 0 8px 16px rgba(16, 185, 129, 0.2);
 }
+
+/* Mobiiliresponsiivisuus */
+@media (max-width: 640px) {
+    .modal-card {
+        padding: 24px 20px;
+        margin: 16px;
+        border-radius: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .btn-secondary, .btn-submit {
+        width: 100%;
+        flex: none;
+    }
+}
