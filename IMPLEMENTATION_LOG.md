@@ -127,6 +127,23 @@
   4. แก้ไข Conflict ใน CSS (`css/cards.css`, `css/controls.css`, `css/header.css`, `css/modal.css`): รวมโครงสร้าง Responsive ขั้นสูง, Skeleton Loading Cards, Toast Notifications, และ Empty States เข้าด้วยกันอย่างไร้รอยต่อ
 - **สถานะ**: ผสานสำเร็จเรียบร้อย (Merged & Verified)
 
+---
+
+## จุดที่ 7: เก็บรายละเอียดความเรียบร้อยรอบสุดท้าย (Final Polish & Safe Import)
+- **วันที่**: 2026-09-12
+- **ไฟล์ที่แก้ไข**:
+  - `handlers/add_subscription.php`
+  - `handlers/update_subscription.php`
+  - `js/app.js`
+  - `subtracker_db.sql`
+- **รายละเอียดการแก้ไข**:
+  1. ปรับปรุงการตรวจสอบค่า `maksutapa`: หากส่งสตริงว่าง `""` เข้ามา จะ fallback เป็น `'Maksukortti'` อัตโนมัติ ป้องกันข้อมูลค่าว่างในฐานข้อมูล
+  2. เพิ่ม `.trim()` สำหรับชื่อบริการในแบบฟอร์ม
+  3. เพิ่ม Toast แจ้งเตือนข้อผิดพลาดใน `loadSubscriptions()` หากไม่สามารถเชื่อมต่อฐานข้อมูล MySQL ได้
+  4. เพิ่มคำสั่ง `CREATE DATABASE IF NOT EXISTS subtracker_db;` และ `USE subtracker_db;` ใน `subtracker_db.sql` เพื่อให้สามารถนำเข้าไฟล์ SQL ได้ทันทีโดยไม่เกิด Error 1046
+- **สถานะ**: สำเร็จ (Verified & Pushed to GitHub)
+
+
 
 
 
